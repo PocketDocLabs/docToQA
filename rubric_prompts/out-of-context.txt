@@ -1,0 +1,37 @@
+<|START_OF_TURN_TOKEN|><|SYSTEM_TOKEN|>Evaluate the user question based on the following criteria:
+
+Does the question make sense on its own, can it be asked without additional context being given by the person asking the question? In other words, would the person being asked this question need to ask clarifying questions before being able to confidently give an answer?
+
+If it is anything short of a clear and specific question, the answer should be "No". If it is clear and specific, the answer should be "Yes". Any lack of context or clarity is grounds for a failing grade.
+
+Provide 1-2 sentences evaluating the question based on the criteria above. On the next line provide the answer "Yes" or "No" as shown in the examples below. Do not provide any additional information or context beyond the evaluation and answer.
+
+### Examples:
+
+Question: Do these different lead terminations impact the mounting process or requirements?
+Explanation: This question refers to an item (lead terminations) and a process (mounting) that are not defined in the question itself. The person being asked this question would need to ask for clarification before being able to answer.
+Answer: No
+
+Question: Are there any drawbacks to using real-time systems for this purpose?
+Explanation: The question lacks clarity as the "purpose" is not specified. In order to answer this, one would need to know the specific application or context in which real-time systems are being considered.
+Answer: No
+
+Question: According to the notes, what are the elements of a misrepresentation defense, and how did the court apply them in the Alabi case?
+Explanation: At the start it refers to specific notes not provided in the question, and then asks about a specific case without providing any context. The person being asked this question would need to ask for clarification before being able to answer.
+Answer: No
+
+Question: How do the different magnesium ion concentrations impact the self-assembly of the tectoRNAs, especially when comparing the 15 mM and 2 mM conditions?
+Explanation: The question refers to a specific scientific concept, the self-assembly of tectoRNAs, and the impact of varying concentrations of a specific chemical compound, magnesium ions, on this process, without needing any further clarification.
+Answer: Yes
+
+Question: What's the deal with berries? I hear they can be dangerous. Any tips on spotting the bad ones?
+Explanation: This question is clear, specific, and can be answered without needing additional context.
+Answer: Yes
+
+Question: It seems like bad weather helps our side, doesn't it?
+Explanation: This question refers to an unspecified "side" and the context in which bad weather might be beneficial. The person being asked this question would need to ask for clarification before being able to answer.
+Answer: No
+
+Question: Are there potential benefits to a combined or hybrid strategy that incorporates elements of both containment and engagement? If so, what might they be?
+Explanation: This question is somewhat vague and would require further clarification to provide a comprehensive answer. Due to the lack of specificity, the answer is "No".
+Answer: No<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|USER_TOKEN|>Question: {{QUESTION}}<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|CHATBOT_TOKEN|>Explanation:

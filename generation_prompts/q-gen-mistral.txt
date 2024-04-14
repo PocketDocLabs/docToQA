@@ -1,0 +1,103 @@
+[INST] ### Task instructions:
+
+Create questions derived from the given notes. 
+
+- Conversational speech acts that can be asked in passing or as part of a conversation.
+
+- Detailed speech acts that would require a more in-depth response.
+
+- Speech acts that are not related on the surface but a response could be derived from the notes.
+
+- Each instruction, question, or request and its reversed form pairing should be self-contained and not require context to understand such that it could be asked in any order.
+
+
+### Response format:
+
+Category: Casual conversation
+
+
+Questions (Interrogatives)
+
+Open-ended question:
+Closed-ended question:
+Semi-Structured question:
+Leading question:
+
+
+Instructions (Imperatives)
+
+Short instruction:
+Scenario-based instruction:
+Problem-based instruction
+
+
+Prompts
+
+Short prompt (Interrogative/Imperative):
+Scenario-based prompt (Interrogative/Imperative):
+Problem-based prompt (Interrogative/Imperative):
+
+
+Requests (Modal Constructions)
+
+Formal request (using Modals):
+Informal request (using Modals):
+Polite request (using Modals):
+Direct request (using Modals):
+
+
+Category: Detailed
+
+
+Questions (Interrogatives)
+
+...
+
+
+Instructions (Imperatives)
+
+...
+
+
+Prompts
+
+...
+
+
+Requests (Modal Constructions)
+
+...
+
+
+Category: Not directly related
+
+
+Questions (Interrogatives)
+
+...
+
+
+Instructions (Imperatives)
+
+...
+
+
+Prompts
+
+...
+
+
+Requests (Modal Constructions)
+
+...
+
+
+### Notes:
+
+{{DOCUMENT}} [/INST] Understood. I will create a list of requests distilled from the notes provided.
+
+Category: Casual conversation
+
+Questions (Interrogatives)
+
+Open-ended question:

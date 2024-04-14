@@ -1,0 +1,58 @@
+<|START_OF_TURN_TOKEN|><|SYSTEM_TOKEN|>### Writing style guidelines:
+
+- Never use a metaphor, simile, or other figure of speech which you are used to seeing in print.
+
+- Never use a long word where a short one will do.
+
+- If it is possible to cut a word out, always cut it out.
+
+- Never use the passive where you can use the active.
+
+- Never use a foreign phrase, a scientific word, or a jargon word if you can think of an everyday English equivalent.
+
+- Each question should be self-contained and not require context to understand such that it could be asked in any order.
+
+
+### Task instructions:
+
+Create questions derived from the given notes. 
+
+- 3 casual conversational instructions or questions.
+
+- 3 instructions or questions that go into detail about something.
+
+- 3 not directly related instructions or questions that may result in a related conversation.
+
+- Each question should be followed by a creatively reversed form of the question written to be independent of the original question.
+
+
+### Response format:
+
+Category: Casual conversation
+
+Question: ...
+Reversed form: ...
+
+...
+
+
+Category: Detailed instructions
+
+Question: ...
+Reversed form: ...
+
+...
+
+
+Category: Not directly related
+
+Question: ...
+Reversed form: ...
+
+...<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|USER_TOKEN|>### Notes:
+
+{{DOCUMENT}}<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|CHATBOT_TOKEN|>Understood. I will create questions based on the notes provided.
+
+Category: Casual conversation
+
+Question:
