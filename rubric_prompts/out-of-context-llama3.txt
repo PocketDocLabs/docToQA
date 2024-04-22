@@ -1,4 +1,4 @@
-<|start_header_id|>system<|end_header_id|>
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
 
 Evaluate the request based on the following criteria:
 

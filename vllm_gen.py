@@ -1,13 +1,20 @@
 import requests
 
+
+base_url = "http://192.168.13.138:2242"
 # Generate API URL
-# gen_url = "http://192.168.13.53:8080/v1/completions"
-gen_url = "https://grey-cleaning-electronics-presence.trycloudflare.com/v1/completions"
 
-# Token count API URL
-# token_count_url = "http://192.168.13.53:8080/tokenize"
-token_count_url = "https://grey-cleaning-electronics-presence.trycloudflare.com/v1/token/encode"
+# Generate API URL from the base URL
+gen_url = base_url + "/v1/completions"
 
+# Token count API URL from the base URL
+token_count_url = base_url + "/v1/token/encode"
+
+# Model list API URL from the base URL
+model_list_url = base_url + "/v1/models"
+
+
+# Function to get token count
 def token_count(text, send_ids=False):
     # Set the headers
     headers = {
@@ -33,8 +40,32 @@ def token_count(text, send_ids=False):
     else:
         return num_tokens
 
+# Function to get the list of models
+def get_model_list():
+    # Send the request
+    response = requests.get(model_list_url)
+
+    # Return the response
+    return response.json()
+
+# Function to return the name of the first model
+def get_first_model_name():
+    # Get the list of models
+    model_list = get_model_list()
+
+    # Expected response
+    # {'object': 'list', 'data': [{'id': 'Meta-Llama-3-8B-Instruct-AWQ', 'object': 'model', 'created': 1713796466, 'owned_by': 'pygmalionai', 'root': 'Meta-Llama-3-8B-Instruct-AWQ', 'parent': None, 'permission': [{'id': 'modelperm-08e05603f36a4b689afaaa806ce7bfcb', 'object': 'model_permission', 'created': 1713796466, 'allow_create_engine': False, 'allow_sampling': True, 'allow_logprobs': True, 'allow_search_indices': False, 'allow_view': True, 'allow_fine_tuning': False, 'organization': '*', 'group': None, 'is_blocking': False}]}]}
+
+    # Get the name of the first model
+    first_model_name = model_list["data"][0]["id"]
+
+    # Return the name of the first model
+    return first_model_name
+
 
 def get_completion(prompt, max_tokens=200, temperature=1.5, min_p=0.1, stop_sequence=[], regex=""):
+
+    model = get_first_model_name()
 
     # Set the headers
     headers = {
@@ -43,7 +74,7 @@ def get_completion(prompt, max_tokens=200, temperature=1.5, min_p=0.1, stop_sequ
 
     # Set the JSON
     json = {
-                "model": "meta-llama/Meta-Llama-3-70B-Instruct",
+                "model": model,
                 "prompt": prompt,
                 "max_context_length": 16000,
                 "max_tokens": max_tokens,

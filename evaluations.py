@@ -1,5 +1,4 @@
 import re
-from transformers import AutoTokenizer
 from vllm_gen import get_completion_text
 
 in_context_prompt_file = "./rubric_prompts/out-of-context-llama3.txt"

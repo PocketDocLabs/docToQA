@@ -1,4 +1,4 @@
-<|start_header_id|>user<|end_header_id|>
+<|begin_of_text|><|start_header_id|>user<|end_header_id|>
 
 ### Task instructions:
 
