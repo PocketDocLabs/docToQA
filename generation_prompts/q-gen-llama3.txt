@@ -1,4 +1,6 @@
-[INST] ### Task instructions:
+<|start_header_id|>user<|end_header_id|>
+
+### Task instructions:
 
 Create questions derived from the given notes. 
 
@@ -94,7 +96,9 @@ Requests (Modal Constructions)
 
 ### Notes:
 
-{{DOCUMENT}} [/INST] Understood. I will create a list of requests distilled from the notes provided.
+{{DOCUMENT}}<|eot_id|>><|start_header_id|>assistant<|end_header_id|>
+
+Understood. I will create a list of requests distilled from the notes provided.
 
 Category: Casual conversation
 

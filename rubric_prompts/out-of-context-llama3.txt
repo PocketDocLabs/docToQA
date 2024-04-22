@@ -1,4 +1,6 @@
-[INST] Evaluate the request based on the following criteria:
+<|start_header_id|>system<|end_header_id|>
+
+Evaluate the request based on the following criteria:
 
 Does it make sense on its own, can it be asked without additional context being given by the person speaking? In other words, would the person on the receiving end need to ask clarifying questions before being able to confidently give an answer?
 
@@ -10,95 +12,99 @@ Provide 1-2 sentences evaluating the question or instruction based on the criter
 
 Request: Do these different lead terminations impact the mounting process or requirements?
 Explanation: This question refers to an item (lead terminations) and a process (mounting) that are not defined in the question itself.
-Answer: No
+Evaluation: No
 
 Request: Analyze urban terrain for potential operations.
 Explanation: This instruction is too vague and lacks specific details or context to be actionable.
-Answer: No
+Evaluation: No
 
 Request: List the specific instructions for bleeding the hydraulic brakes on a BMW 5-Series (E34) following the steps in the manual (page 44, Section 26
 Explanation: The question brings up a specific section of a manual but there is no mention of which manual is being referred to.
-Answer: No
+Evaluation: No
 
 Request: Why do military texts still accept penetration and breakthrough as normal military possibilities?
 Explanation: The question is clear and specific, asking about the acceptance of penetration and breakthrough in military texts.
-Answer: Yes
+Evaluation: Yes
 
 Request: Are there any drawbacks to using real-time systems for this purpose?
 Explanation: The question lacks clarity as the "purpose" is not specified. In order to answer this, one would need to know the specific application or context in which real-time systems are being considered.
-Answer: No
+Evaluation: No
 
 Request: The battery light is on in my BMW 318i with an 1856 cc engine, even after servicing. What might be the cause, and how can I fix it?
 Explanation: The question though light on actionable details, is clear and specific enough to be answered without additional context.
-Answer: Yes
+Evaluation: Yes
 
 Request: Which engines are not covered in the manual?
 Explanation: What manual is being referred to is not specified, making the question unclear and difficult to answer without further information.
-Answer: No
+Evaluation: No
 
 Request: According to the notes, what are the elements of a misrepresentation defense, and how did the court apply them in the Alabi case?
 Explanation: At the start it refers to specific notes not provided in the question, and then asks about a specific case without providing any context.
-Answer: No
+Evaluation: No
 
 Request: Find information about the available transmission types and their respective capacities.
 Explanation: There is no context provided for what type of transmission or capacity is being referred to, making the question unclear and difficult to answer without further information.
-Answer: No
+Evaluation: No
 
 Request: Excuse me for my ignorance, but could you clarify the impact of additional factors beyond those related to probing system characteristics on probing accuracy and reliability?
 Explanation: The question is clear and specific, asking about the impact of additional factors on probing accuracy and reliability.
-Answer: Yes
+Evaluation: Yes
+
+Request: Can you please explain the general structure of the ignition system on the given engine models?
+Explanation: The question says "given engine models" but does not specify which models are being referred to, making it unclear and difficult to answer without further information.
+Evaluation: No
 
 Request: Describe how to remove the drivebelt for adjustment and replacement.
 Explanation: Drivebelts are a common component and not specific enough to make this request actionable.
-Answer: No
+Evaluation: No
 
 Request: How do the different magnesium ion concentrations impact the self-assembly of the tectoRNAs, especially when comparing the 15 mM and 2 mM conditions?
 Explanation: For someone familiar with the topic, this question is clear and specific enough to be answered without additional context.
-Answer: Yes
+Evaluation: Yes
 
 Request: Is the distinction between penetration and breakthrough always clear-cut, as the text suggests?
 Explanation: Though initially clear, the question introduces ambiguity by referencing a text that is not provided.
-Answer: No
+Evaluation: No
 
 Request: Should we focus on flanking manuevers in our next military engagement?
 Explanation: The question is missing the context under which the military engagement is taking place, making it unclear and difficult to answer without further information.
-Answer: No
+Evaluation: No
 
 Request: Could you please provide an estimate of the energy cost to excavate a single ice cube from a blood vessel using a nanorobot?
 Explanation: There are no problems with this request, as it is clear and specific enough to be answered without additional context.
-Answer: Yes
+Evaluation: Yes
 
 Request: What's the deal with berries? I hear they can be dangerous. Any tips on spotting the bad ones?
 Explanation: This question is clear, specific, and can be answered without needing additional context.
-Answer: Yes
+Evaluation: Yes
 
 Request: Does the document discuss the recertification requirements for Level B instructors?
 Explanation: The question refers to a document not provided in the question, making it unclear and difficult to answer without further information.
-Answer: No
+Evaluation: No
 
 Request: Summarize the training requirements for operators and inspectors.
 Explanation: This instruction is too vague and lacks specific details or context to be actionable.
-Answer: No
+Evaluation: No
 
 Request: Do you think that the maneuver on interior lines is an obsolete tactic in modern warfare?
 Explanation: The question refers to a specific military tactic, "maneuver on interior lines," and asks about its relevance in modern warfare.
-Answer: Yes
+Evaluation: Yes
 
 Request: It seems like bad weather helps our side, doesn't it?
 Explanation: The question is vague and lacks clarity, as it does not specify what "our side" refers to or the context in which the weather is impacting it.
-Answer: No
+Evaluation: No
 
 Request: What is covered by the BMW 3- & 5-Series Service and Repair Manual?
 Explanation: The question is clear and specific, asking about the content of a specific manual.
-Answer: Yes
+Evaluation: Yes
 
 Request: Are there potential benefits to a combined or hybrid strategy that incorporates elements of both containment and engagement? If so, what might they be?
 Explanation: This question is vague and would require further clarification to provide a comprehensive answer.
-Answer: No
+Evaluation: No
 
 Request: In case of certification revocation, what actions should be taken?
 Explanation: There is no context provided for what certification is being referred to, making the question unclear and difficult to answer without further information.
-Answer: No
+Evaluation: No
 
 Request: {{QUESTION}}
 Explanation:

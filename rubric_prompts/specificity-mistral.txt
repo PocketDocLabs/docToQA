@@ -1,0 +1,35 @@
+[INST] Evaluate the request based on the following criteria:
+
+Is the request amenable to a a text-based response?
+Can the request be made regardless of physical location?
+
+Provide 1-2 sentences evaluating the question or instruction based on the criteria above. On the next line provide the answer "Yes" or "No" as shown in the examples below. Do not provide any additional information or context beyond the evaluation and answer.
+
+### Examples:
+
+Request: What is the capital of France?
+Explanation: This can be easily answered with a text-based response and does not require physical location.
+Answer: Yes
+
+Request: Determine the contents and condition of the survival kits aboard.
+Explanation: This request requires that the receiver be physically present on a craft of some kind. It is not ammenable to a text-based response.
+Answer: No
+
+Request: Describe a plan to isolate a segmented urban area from the rest of the urban terrain.
+Explanation: This can be answered with a text-based response and although it does deal with a physical location, it is purely theoretical and does not require a specific physical location.
+Answer: Yes
+
+Request: Abandon ship without combat gear.
+Explanation: The person receiving this instruction must be physically present on a ship with combat gear. In addition, the instruction is not ammenable to a text-based response but rather requires immediate action.
+Answer: No
+
+Request: Gather intelligence on the enemy's position.
+Explanation: This request requires that the receiver be physically present near the enemy's position.
+Answer: No
+
+Request: Hey if you have a moment, could you give me a run down on the current stock market trends?
+Explanation: This can be answered with a text-based response and does not require a specific physical location.
+Answer: Yes
+
+Request: {{QUESTION}}
+Explanation:

@@ -1,0 +1,98 @@
+[INST] Evaluate the request based on the following criteria:
+
+Is the request amenable to a a text-based response?
+Can the request be made regardless of physical location?
+Can the request be resolved wholly with a text-based response given enough time and notes?
+Would the answer to the request be informative, something other than a simple acknowledgedment of having received the request?
+Assume the receiver has the necessary knowledge to answer the request.
+
+Provide 1-2 sentences evaluating the question or instruction based on the criteria above. On the next line provide the answer "Yes" or "No" as shown in the examples below. Do not provide any additional information or context beyond the evaluation and answer.
+
+### Examples:
+
+Request: How does the urban environment influence military operations?
+Explanation: This can be answered with a text-based response and does not require a specific physical location.
+Evaluation: Yes
+
+Request: What is the capital of France?
+Explanation: This can be easily answered with a text-based response and does not require physical location.
+Evaluation: Yes
+
+Request: Let's tackle the potential challenges that might arise in offensive operations when high-rise buildings in core areas are often taller and more densely packed than those in outlying high-rise areas. Here are some suggestions to mitigate these issues.
+Explanation: This isnt so much a request as it is a statement and as such does not require a response. In addition, it would likely not garner an informative response.
+Evaluation: No
+
+Request: Isn't the urban environment more complex than other environments due to its unique features?
+Explanation: This can be answered with a text-based response and does not require a specific physical location.
+Evaluation: Yes
+
+Request: Test your equipment before you start. Make sure your camera and microphone are working.
+Explanation: This requires that the receiver be physically present with the equipment in question. In addition, the instruction is not ammenable to a text-based response but rather requires immediate action and would not be informative.
+Evaluation: No
+
+Request: Is it safe to add a quart of oil to the E28 5-Series engine without checking the dipstick?
+Explanation: This can be answered with a text-based response and does not require a specific physical location.
+Evaluation: Yes
+
+Request: Determine the contents and condition of the survival kits aboard.
+Explanation: This request requires that the receiver be physically present on a craft of some kind.
+Evaluation: No
+
+Request: Help me clean this rifle
+Explanation: This request when interpreted charitably can be answered with a text-based explanation and depending on the context may not require a specific physical location.
+Evaluation: Yes
+
+Request: Considering the average path length of a complete vascular circuit and a removal rate of 1 μm3/nanorobot-sec, how long would it take for nanorobots to clear ice from all the noncapillary vessels?
+Explanation: There are no problems with this request based on the criteria provided.
+Evaluation: Yes
+
+Request: Calculate the energy cost of clearing ice from the human vasculature using nanorobots.
+Explanation: This can be answered with a text-based response and does not require a specific physical location.
+Evaluation: Yes
+
+Request: Describe the maintenance procedures for a major tune-up on a BMW 3- or 5-Series.
+Explanation: Nothing stands out as problematic with this request based on the criteria provided.
+Evaluation: Yes
+
+Request: Why do military texts still accept penetration and breakthrough as normal military possibilities?
+Explanation: This can be answered with a text-based response and does not require a specific physical location.
+Evaluation: Yes
+
+Request: Understand the urban environment for effective urban operations.
+Explanation: This instruction is not a request and does not require a response.
+Evaluation: No
+
+Request: If defending, arrange the defense to prevent the enemy from isolating or bypassing the position in a high-rise area.
+Explanation: This is not a request and would require merely an acknowledgment of having received the instruction.
+Evaluation: No
+
+Request: Design a plan for urban operations, taking into account the various urban areas and their advantages and disadvantages.
+Explanation: This can be answered with a text-based response and does not require a specific physical location.
+Evaluation: Yes
+
+Request: Request for permission to conduct research on a specific topic.
+Explanation: This is not a request and would require merely an acknowledgment of having received the instruction.
+Evaluation: No
+
+Request: Describe a plan to isolate a segmented urban area from the rest of the urban terrain.
+Explanation: This can be answered with a text-based response and although it does deal with a physical location, it is purely theoretical and does not require a specific physical location.
+Evaluation: Yes
+
+Request: What is the average height and density of buildings in outlying high-rise areas, and how do they compare to core areas?
+Explanation: This can be answered with a text-based response and does not require a specific physical location.
+Evaluation: Yes
+
+Request: Abandon ship without combat gear.
+Explanation: The person receiving this instruction must be physically present on a ship with combat gear. In addition, the instruction is not ammenable to a text-based response but rather requires immediate action.
+Evaluation: No
+
+Request: Gather intelligence on the enemy's position.
+Explanation: This request requires that the receiver be physically present near the enemy's position.
+Evaluation: No
+
+Request: Hey if you have a moment, could you give me a run down on the current stock market trends?
+Explanation: This can be answered with a text-based response and does not require a specific physical location.
+Evaluation: Yes
+
+Request: {{QUESTION}}
+Explanation:

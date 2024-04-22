@@ -1,0 +1,238 @@
+[INST] ### Task instructions:
+- Today we will be helping to sort research notes as a preparation for making flash cards.
+- Evaluate if the presented information is relevant to the request.
+- Provide an explanation for your evaluation then give a 0 to 10 score based on the relevance of the information.
+- The explanation should be 1 to 2
+
+#### Examples:
+
+Request: What is the capital of France?
+Notes: ```
+France, officially the French Republic, is a country located primarily in Western Europe. It also includes overseas regions and territories in the Americas and the Atlantic, Pacific, and Indian oceans, giving it one of the largest discontiguous exclusive economic zones in the world. Metropolitan France shares borders with Belgium and Luxembourg to the north, Germany to the northeast, Switzerland to the east, Italy and Monaco to the southeast, Andorra and Spain to the south, and a maritime border with the United Kingdom to the northwest. Its metropolitan area extends from the Rhine to the Atlantic Ocean and from the Mediterranean Sea to the English Channel and the North Sea. Its overseas territories include French Guiana in South America, Saint Pierre and Miquelon in the North Atlantic, the French West Indies, and many islands in Oceania and the Indian Ocean. Its eighteen integral regions, five of which are overseas, span a combined area of 643,801 km² (248,573 sq mi) and have a total population of 68.4 million as of January 2024. France is a unitary semi-presidential republic with its capital in Paris, the country's largest city and main cultural and commercial center; other major urban areas include Marseille, Lyon, Toulouse, Lille, Bordeaux, Strasbourg, Nantes, and Nice.
+```
+Explanation: The information is extremely relevant as it plainly provides that the capital of France is Paris.
+Relevance score: 10
+
+Request: What should be the idle speed for a 318 with a 1.8L engine (manual transmission)?
+Notes: ```
+Idle speed
+318i with M10/B18 engine (manual transmission)  . . . . . . . . . . . . . 850 +- 50 rpm
+318i with M10/B18 engine (automatic transmission)  . . . . . . . . . . . 750 +- 50 rpm
+5-Series, E34 ("new-shape")
+535i with M30/B35M engine  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 850 +- 50 rpm
+CO% at 3000 rpm
+316 with M10/B18 engine  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 0.5 to 1.0
+316i and 318i with M40/B16 engine  . . . . . . . . . . . . . . . . . . . . . . . . 0.7 +- 0.5
+318i with M10/B18 engine  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1.0 maximum
+320i with M20/B20 engine (L-Jetronic)  . . . . . . . . . . . . . . . . . . . . . . 1.0 +- 0.5
+320i with M20/B20 engine (Motronic)  . . . . . . . . . . . . . . . . . . . . . . . 0.7 +- 0.5
+325i with M20/B25 engine  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1.0 +- 0.5
+518 and 518i with M10/B18 engine  . . . . . . . . . . . . . . . . . . . . . . . . 1.0 maximum
+525i with M30/B25 engine  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1.0 +- 0.5
+528i with M30/B28 engine  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1.5 maximum
+535i with M30/B34 engine  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 0.3 to 1.5
+M535i with M30/B34 engine  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 0.3 to 1.5
+5-Series, E34 ("new-shape")
+All models  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 0.7 +- 0.5
+Air filter element
+M10 engines  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Champion W155 (round) or U504 (square)
+M20 engines  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Champion U504 or U527
+M30 engines  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Champion U504 or U527
+M40 engines  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Champion U527
+Fuel filter (all fuel injection engines)  . . . . . . . . . . . . . . . . . . . . . . . . . . . . Champion L206
+Ignition system
+Spark plug type
+M10, M20 and M30 engines  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Champion N9YCC
+M40 engines  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Champion C9YCC
+Spark plug gap*  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 0.8 mm
+Spark plug (HT) leads  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . Champion type not available
+* The spark plug gap quoted is that recommended by Champion for their specified plugs listed above. If spark plugs of any other type are to be
+fitted, refer to their manufacturer's spark plug gap recommendations.
+3-Series passenger side from 1991  . . . . . . . . . . . . . . . . . . . . . . . . . . Champion X-5103 (20 inch) or Champion X-5303 (21 inch)
+Tailgate
+```
+Explanation: The text lists the idle speed for a 318i with M10/B18 engine (manual transmission) which is a 1.8L engine making it relevant to the request.
+Relevance score: 10
+
+Request: Tell me what we need to do to ensure our troops have enough water during jungle operations.
+Notes: ```
+## Snakes
+1-59. While traveling in jungle environments, troops must stay alert to and avoid disturbing snakes. Troops should be particularly watchful when clearing ground. Each jungle region has certain species indigenous to the area. Before deploying, Soldiers/Marines access the electronic DOD Foreign Clearance Guide (FCG) for the area accessible at <https:// www.fcg.pentagon.mil/>. Section VII, "Travel Information," of the guide identifies diseases caused by local insects. Units need to establish a procedure for treating snakebites. Antivenin is used to treat venomous snakebites. Antivenin is specific to a snake species; there is not a universal snake antivenin. Depending on the availability of antivenin, and the ability to properly store it, snake bite victims may require urgent medical evacuation and treatment at the next higher echelon of medical care.
+Note. Treat all snakebites as venomous. For treatment of
+snakebites, refer to TC 4-02.1.
+```
+Explanation: The information though relevant to jungle operations, does not provide the necessary information on how to ensure troops have enough water during jungle operations.
+Relevance score: 2
+
+Request: Can you tell me about the hepatic portal vein and why it might need special attention during excavation?
+Notes: ```
+4.2.1  Cartographic Excavation 
+Excavation nanorobots are employed to remove mainly frozen water-ice or vitrification cryoprotectant 
+materials977 from all major blood vessels identified on the large-vessel 3D vascular map, a process that may 
+be called cartographic excavation.  Due to the presence of the map, there can be some reasonable assurance 
+that most major vessels, including the lymphatics,978 will have been identified and can be excavated, and it 
+will be possible to calculate the safest pathways between termini of broken vessels that have been bisected 
+and separated by up to 0.1 mm due to cracking (Section 3.4.3).  For the few large vessels that might be 
+missed during the scan, they can be found later either by excavation upward in size from the capillary beds 
+reaching the other (missing) side of the vessel, or, in the case of vessel segments completely isolated by 
+separate breaks on either side and not detected by the original scan, by capillary bed analysis that should 
+detect blocks of tissue that appear to lack sufficient vascularization, followed by exploratory excavation 
+(Section 4.2.2) of those few blocks of tissue. 
+If only a 1 mm vascular map was available, this excavation would involve clearing out ~11,541 arterial 
+vessels (including aorta, large arteries, main artery branches, and terminal artery branches) of lumenal
+```
+Explanation: While the question is adjacent to the information provided, the hepatic portal vein is not mentioned in the notes.
+Relevance score: 3
+
+Request: In case of certification revocation, what actions should be taken?
+Notes: ```
+Test string: 5.6 Maintenance of Certification Status
+1. Maintenance of certification for instructors, operators, and inspectors requires
+continuous proficiency.
+2. Recertification of Level B instructors shall include the successful completion of
+retraining by a Level A NASA instructor. Recertification of operators and inspectors shall include
+successful completion of retraining by a Level A NASA instructor or a Level B supplier
+instructor.
+3. Recertification shall be required when:
+a. Proficiency requirements herein are not met.
+(1) Instructors - proficiency unacceptable.
+(2) Operators - unsatisfactory quality of articles fabricated.
+(3) Inspectors - unsatisfactory quality of inspection.
+(4) Quality/quantitative data demonstrates a need for recertification.
+b. New soldering or inspection techniques have been approved that require different
+skills.
+c. Work period interruption of greater than 6 months occurs.
+d. Two years has elapsed since last certification.
+4. Certification shall be revoked when:
+a. Certificate holder fails recertification.
+b. Certificate holder fails to meet visual acuity requirements of paragraph 5.2.
+c. Employment is terminated.
+d. Supplier training program fails to meet requirements set forth herein or set forth
+otherwise in the contract.
+```
+Explanation: The information is relevant as it provides the actions to be taken in case of certification revocation.
+Relevance score: 10
+
+Request: List the precautions for working on a transistorized ignition system.
+Notes: ```
+17 Alternator brushes - 
+check and renewal 3
+Caution: If the radio in your
+vehicle is equipped with an anti-
+theft system, make sure you
+have the correct activation code
+before disconnecting the battery.
+5*10 Engine electrical systems
+16.5  Use a torch to check the slip rings for
+scoring or deep grooves
+16.4b  The regulator can be withdrawn
+easily on Bosch alternators. This type of
+regulator is integral with the brush
+assembly
+16.4a  Remove the nuts and lift off the
+small terminal protector from the
+alternator cover, then remove the nuts and
+the cover
+15.2  Depending on how many accessories
+the vehicle has, sometimes it's easier to
+remove the alternator from the brackets
+first, and then turn it sideways to gain
+access to the connections (arrowed) on
+the rear of the alternator body
+Refer to the information on page 0-7 at the
+front of this manual before detaching the
+language resetting procedure.
+1 Disconnect the battery negative cable.
+Bosch alternator
+2 Remove the voltage regulator from the back
+of the alternator (see Section 16).
+3 Measure the length of the brushes (see
+illustration). They should not be less than 
+6.0 mm. If any are worn past this point, renew
+them all as a set. 
+4 Also check for excessively worn slip rings
+(see illustration 16.5).
+5 The brushes are retained either by set
+screws or by solder. If you are not skilled at
+soldering, it may be best to have an auto
+electrician fit the new brushes. Note: Be
+careful not to apply heat to the solder joint for
+more than 5 seconds. If necessary, use a heat
+sink to capture the excess heat. This can be
+accomplished by clamping a pair of needle-
+nose pliers next to the solder joint.
+6 On the screw type, hold the assembly in
+place and refit the screws. Tighten them
+evenly, a little at a time, so the holder isn't
+distorted.
+7 Refit the regulator assembly to the
+alternator.
+8 Reconnect the battery negative cable.
+Motorola alternator
+9 Remove the alternator.
+10 The brushes are mounted under the
+regulator on the rear of the alternator (see
+illustration 16.7).
+11 Remove the mounting screws and
+insulating washers, and separate the voltage
+regulator and brush holder from the brush end
+housing.
+12 Measure the length of the brushes (see
+illustration 17.3). If any brush is less then 
+6.0 mm long, renew them all as a set.
+13 Make sure the brushes move smoothly in
+the holder.
+14 Refit the brush holder/regulator. Tighten
+the screws securely. Make sure the brushes
+aren't earthed.
+15 Refitting is the reverse of removal.
+```
+Explanation: Alternators are related to the ignition system but the notes are not useful for listing precautions for working on a transistorized ignition system.
+Relevance score: 2
+
+Request: Explain the concept of a utility fog and its potential use in ice excavation.
+Notes: ```
+The precise workings of nanorobots that perform ice excavation have not yet been detailed but don't seem 
+conceptually complex.  One published estimate1000 of the power requirements for a drobot = 1 mm diameter 
+nanorobot mechanically locomoting at vrobot ~ 1 mm/sec through solid ice via viscoplastic flow in which ice 
+crystal at a temperature just below freezing is deformed without breaking is Probot ~ 200,000 pW.  However, 
+this seems excessive compared to an excavation scheme in which most of the spoil is exported from the ice 
+face through the utility fog "mining worms" and thence out of the body as still-unmelted microchunks of 
+ice, with the mining robots and local environment maintained at cryogenic temperatures by the suffusion of 
+liquid nitrogen throughout the theater of operation. 
+For simplicity of analysis, consider an excavation robot that removes a cubic block of ice of linear 
+dimension Lice by passing a cutting instrument1001 around the perimeter of the ice cube in order to free it 
+from the larger ice face.  The cutting instrument cleaves a narrow layer of thickness tcut across all five 
+unexposed sides,1002 removing spoil of volume Vspoil ~ 5 tcut Lice
+2 to release an ice cube of volume Vcube = 
+(Lice - 2tcut)3 from the ice face which is then transported intact and still frozen out of the body.
+```
+Explanation: The notes explicitly mention utility fog "mining worms" and their potential use in ice excavation. This alone makes the information relevant to the request.
+Relevance score: 10
+
+Request: Explain the concept of a utility fog and its potential use in ice excavation.
+Notes: ```
+1003 https://en.wikipedia.org/wiki/Properties_of_water. 
+1004 Robert C. Weast, Handbook of Chemistry and Physics, 49th Edition, CRC, Cleveland OH, 1968; "Specific Heat of Ice," -
+200 degC to -2.2 degC, p. D-95.  See also:  https://www.engineeringtoolbox.com/ice-thermal-properties-d_576.html. 
+1005 The heat of fusion for solid DMSO is ~ 2 x 108 J/m3 (https://en.wikipedia.org/wiki/Dimethyl_sulfoxide_(data_page)), well 
+below the 3.1 x 108 J/m3 value for solid water-ice.  The heat capacity of liquid DMSO is ~2 x 106 J/m3-K 
+(https://en.wikipedia.org/wiki/Dimethyl_sulfoxide_(data_page)), well below the 4.22 x 106 J/m3-K value for liquid water at 0 
+degC (https://www.engineeringtoolbox.com/specific-heat-capacity-water-d_660.html). 
+1006 The heat of fusion for solid ethylene glycol is ~ 1.8 x 108 J/m3 
+(https://en.wikipedia.org/wiki/Ethylene_glycol_(data_page)), well below the 3.1 x 108 J/m3 value for solid water-ice.  The heat 
+capacity of liquid ethylene glycol at 0 degC is ~2.7 x 106 J/m3-K (https://www.engineeringtoolbox.com/ethylene-glycol-
+d_146.html), well below the 4.22 x 106 J/m3-K value for liquid water at 0 degC (https://www.engineeringtoolbox.com/specific-
+heat-capacity-water-d_660.html). 
+"Approximate Quantification of the Human Arteriovenous System"; http://www.nanomedicine.com/NMI/Tables/8.1.jpg. 
+1009 Handle PH, Loerting T. Temperature-induced amorphisation of hexagonal ice. Phys Chem Chem Phys. 2015 Feb 
+21;17(7):5403-5417; https://pubs.rsc.org/en/content/articlehtml/2015/cp/c4cp05587j.
+```
+Explanation: The information provided does not explain the concept of a utility fog and its potential use in ice excavation.
+Relevance score: 0
+
+Request: {{QUESTION}}
+Notes: ```
+{{NOTES}}
+```
+Explanation:

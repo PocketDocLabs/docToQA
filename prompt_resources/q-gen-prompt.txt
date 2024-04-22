@@ -1,3 +1,101 @@
+<|start_header_id|>user<|end_header_id|>
+
+### Task instructions:
+
+Create questions derived from the given notes. 
+
+- Conversational speech acts that can be asked in passing or as part of a conversation.
+
+- Detailed speech acts that would require a more in-depth response.
+
+- Speech acts that are not related on the surface but a response could be derived from the notes.
+
+- Each instruction, question, or request and its reversed form pairing should be self-contained and not require context to understand such that it could be asked in any order.
+
+
+### Response format:
+
+Category: Casual conversation
+
+
+Questions (Interrogatives)
+
+Open-ended question:
+Closed-ended question:
+Semi-Structured question:
+Leading question:
+
+
+Instructions (Imperatives)
+
+Short instruction:
+Scenario-based instruction:
+Problem-based instruction
+
+
+Prompts
+
+Short prompt:
+Scenario-based prompt:
+Problem-based prompt:
+
+
+Requests (Modal Constructions)
+
+Formal request:
+Informal request:
+Polite request:
+Direct request:
+
+
+Category: Detailed
+
+
+Questions (Interrogatives)
+
+...
+
+
+Instructions (Imperatives)
+
+...
+
+
+Prompts
+
+...
+
+
+Requests (Modal Constructions)
+
+...
+
+
+Category: Not directly related
+
+
+Questions (Interrogatives)
+
+...
+
+
+Instructions (Imperatives)
+
+...
+
+
+Prompts
+
+...
+
+
+Requests (Modal Constructions)
+
+...
+
+
+### Notes:
+
 
 5 Ignition system - general
 The ignition system includes the ignition
@@ -1030,3 +1128,12 @@ remove the alternator from the brackets
 first, and then turn it sideways to gain
 access to the connections (arrowed) on
 the rear of the alternator body
+<|eot_id|>><|start_header_id|>assistant<|end_header_id|>
+
+Understood. I will create a list of requests distilled from the notes provided.
+
+Category: Casual conversation
+
+Questions (Interrogatives)
+
+Open-ended question:
