@@ -1,8 +1,18 @@
 <|begin_of_text|><|start_header_id|>user<|end_header_id|>
 
+### Notes:
+
+{{DOCUMENT}}
+
+
+### Notes Context:
+
+{{DOCUMENT_SUMMARY}}
+
+
 ### Task instructions:
 
-Create questions derived from the given notes. 
+Create questions derived from the user message.
 
 - Conversational speech acts that can be asked in passing or as part of a conversation.
 
@@ -10,7 +20,21 @@ Create questions derived from the given notes.
 
 - Speech acts that are not related on the surface but a response could be derived from the notes.
 
-- Each instruction, question, or request and its reversed form pairing should be self-contained and not require context to understand such that it could be asked in any order.
+Each instruction, question, or request and its reversed form pairing should be self-contained and not require context to understand such that it could be asked in any order.
+The instructions should provoke a conversation or response from the receiver rather than being rhetorical, a statement, or a command.
+Ensure that the questions is in some way relevant to the notes provided, a specific item, name, or concept mentioned in the notes.
+Use the notes context to fill in any missing information or to provide additional context for the questions.
+
+If the speech act relates to an item mention its make or model along with a date if applicable. Examples:
+
+Dont say: How do I replace the alternator on my F-150?
+Say: How do I replace the alternator on my 2015 Ford F-150 with the 3.5L V6 engine?
+
+Dont say: My rifle has been jamming, how do I fix it?
+Say: My PTR 91 has been jamming when I use steel case ammo, how do I fix it?
+
+Dont say: Write a step by step comparison of the 2015 macbook pro and the 2016 macbook pro.
+Say: Write a step by step comparison of the 2015 13-inch Macbook Pro with the 2.7GHz dual-core Intel Core i5 and the 2016 13-inch Macbook Pro with the 2.9GHz dual-core Intel Core i5.
 
 
 ### Response format:
@@ -94,11 +118,11 @@ Requests (Modal Constructions)
 ...
 
 
-### Notes:
+Final comments:
 
-{{DOCUMENT}}<|eot_id|>><|start_header_id|>assistant<|end_header_id|>
+...<|eot_id|><|start_header_id|>assistant<|end_header_id|>
 
-Understood. I will create a list of requests distilled from the notes provided.
+Understood. I will create a list of speech acts distilled from the notes provided that demand something from the receiver.
 
 Category: Casual conversation
 

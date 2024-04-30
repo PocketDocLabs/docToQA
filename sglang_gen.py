@@ -14,7 +14,7 @@ gen_url = base_url + "/v1/completions"
 token_count_url = base_url + "/v1/token/encode"
 
 # Model list API URL from the base URL
-model_list_url = base_url + "/v1/models"
+model_list_url = base_url + "/get_model_info"
 
 
 # Function to get token count
@@ -57,10 +57,10 @@ def get_first_model_name():
     model_list = get_model_list()
 
     # Expected response
-    # {'object': 'list', 'data': [{'id': 'Meta-Llama-3-8B-Instruct-AWQ', 'object': 'model', 'created': 1713796466, 'owned_by': 'pygmalionai', 'root': 'Meta-Llama-3-8B-Instruct-AWQ', 'parent': None, 'permission': [{'id': 'modelperm-08e05603f36a4b689afaaa806ce7bfcb', 'object': 'model_permission', 'created': 1713796466, 'allow_create_engine': False, 'allow_sampling': True, 'allow_logprobs': True, 'allow_search_indices': False, 'allow_view': True, 'allow_fine_tuning': False, 'organization': '*', 'group': None, 'is_blocking': False}]}]}
+    # {'model_path': 'TinyLlama/TinyLlama-1.1B-intermediate-step-1431k-3T'}
 
     # Get the name of the first model
-    first_model_name = model_list["data"][0]["id"]
+    first_model_name = model_list["model_path"]
 
     # Return the name of the first model
     return first_model_name
@@ -86,7 +86,7 @@ def get_completion(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_k=0, 
                 "min_p": min_p,
                 "top_k": top_k,
                 "use_beam_search": beam_search,
-                "guided_regex": regex,
+                "regex": regex,
                 "guided_grammar": grammar,
                 "skip_special_tokens": skip_special_tokens,
                 "stop": stop_sequence,

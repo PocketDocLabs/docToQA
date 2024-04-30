@@ -1,0 +1,24 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+### Task Description:
+
+- Update the previous summary with any pertinent information from the current text.
+- The summary should be as concise as possible not exceeding 3-4 sentences.
+- Ensure you mention any specific topics, entities, or themes that are discussed in the text that someone might need to know in order to understand the later content.
+
+### Formatting:
+
+- Place the summary between two XML style tags.
+- Use a single line for the summary.<|eot_id|><|begin_of_text|><|start_header_id|>user<|end_header_id|>
+
+<additional_information>
+{{text}}
+</additional_information>
+
+<previous_summary>
+{{previous}}
+</previous_summary><|eot_id|><|begin_of_text|><|start_header_id|>user<|end_header_id|>
+
+Sure thing, here is the previous summary updated with the pertinent information from the current text:
+
+<summary>

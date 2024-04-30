@@ -2,4 +2,21 @@
 
 ### Task Description:
 
-- 
+- Summarize the user text provided in {{sentence_count}} short sentences or less with no line breaks.
+- Keep things trim, if someone needs the original text they can always refer back to it this is merely to help them find the information the section.
+- Use the language and style of the original text but avoid copying spelling mistakes or errors.
+- Optimize the summary for keywords to be easily searchable.
+- The year, era, date, or some other indicator of the freshness of the information should be prioritized if written in the text.
+- Numbers, makes,  models, names, model years, dates, and other specific information should be prioritized.
+- Ensure you mention any specific topics, entities, or themes that are discussed in the text.
+
+### Formatting:
+
+- Place the summary between two XML style <summary></summary> tags.
+- Use a single line for the summary.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+{{text}}<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Sure thing, lets get right into that summary:
+
+<summary>

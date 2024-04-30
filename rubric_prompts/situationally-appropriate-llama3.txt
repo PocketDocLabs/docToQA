@@ -1,4 +1,4 @@
-<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+<|begin_of_text|><|start_header_id|>user<|end_header_id|>
 
 Evaluate the request based on the following criteria:
 
@@ -67,6 +67,10 @@ Evaluation: Yes
 Request: Understand the urban environment for effective urban operations.
 Explanation: This instruction is not a request and does not require a response.
 Evaluation: No
+
+Request: You notice your BMW 5 Series has a faulty brake system. How would you diagnose and fix the issue?
+Explanation: This can be answered with a text-based response and does not require a specific physical location.
+Evaluation: Yes
 
 Request: If defending, arrange the defense to prevent the enemy from isolating or bypassing the position in a high-rise area.
 Explanation: This is not a request and would require merely an acknowledgment of having received the instruction.

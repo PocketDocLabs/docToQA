@@ -8,16 +8,16 @@ situ_aprop_prompt_file = "./rubric_prompts/situationally-appropriate-llama3.txt"
 usefulness_prompt_file = "./context_prompts/usefulness-check-llama3.txt"
 
 # Explantion, answer grammar
-e_a_grammar = """root ::= " " line "\nEvaluation: " answer
+e_a_grammar = """<root> ::= " " <line> "\nEvaluation: " <answer>
 
 # Yes or no answer
-answer ::= "Yes" | "No"
+<answer> ::= "Yes" | "No"
 
 # String
-line ::= [^\r\n\x0b\x0c\x85\u2028\u2029|:]+
+<line> ::= [^\r\n\x0b\x0c\x85\u2028\u2029|:]+
 """
 
-e_a_regex = " [^\r\n\x0b\x0c\x85\u2028\u2029|:]+\nEvaluation: (Yes|No)"
+e_a_regex = """ [^\r\n\x0b\x0c\x85\u2028\u2029]+\nEvaluation: (Yes|No)"""
 
 # Explanation, relevance score grammar
 e_r_grammar = """<root> ::= " " <line> "\nRelevance score: " <score>
@@ -29,7 +29,8 @@ e_r_grammar = """<root> ::= " " <line> "\nRelevance score: " <score>
 <score> ::= ("0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10")
 """
 
-e_r_regex = " [^\r\n\x0b\x0c\x85\u2028\u2029|:]+\nRelevance score: (10|[0-9])"
+e_r_regex = """ [^\r\n\x0b\x0c\x85\u2028\u2029]+\nRelevance score: (10|[0-9])"""
+
 
 
 # Function to check if a question is in context, returns True if the question is in context, False otherwise and the explanation
@@ -43,12 +44,13 @@ def pass_test_in_context(question):
     # Replace {{QUESTION}} with the question
     prompt = re.sub(r"{{QUESTION}}", question, prompt)
 
-    output = get_completion_text(prompt, max_tokens=100, regex=regex, temperature=0.1, min_p=0.1)
+    output = get_completion_text(prompt, max_tokens=250, regex=e_a_regex, temperature=0.5, min_p=0.01)
 
-    # Extract the explanation and answer from the output, the first line is the explanation prefixed with "Explanation:" and the second line is the answer prefixed with "Evaluation:"
+    # Extract the explanation and answer from the output, the first line is the explanation and the second line is the answer prefixed with "Evaluation:"
     explanation, answer = output.split("\nEvaluation:")
 
-    explanation = explanation.replace("Explanation:", "").strip()
+    explanation = explanation.strip()
+
     answer = answer.strip()
 
     # If the answer is "Yes" return True, else return False
@@ -66,12 +68,13 @@ def pass_test_situ_aprop(question):
     # Replace {{QUESTION}} with the question
     prompt = re.sub(r"{{QUESTION}}", question, prompt)
 
-    output = get_completion_text(prompt, max_tokens=100, regex=regex, temperature=0.1, min_p=0.1)
+    output = get_completion_text(prompt, max_tokens=250, regex=e_a_regex, temperature=0.5, min_p=0.01)
 
-    # Extract the explanation and answer from the output, the first line is the explanation prefixed with "Explanation:" and the second line is the answer prefixed with "Evaluation:"
+    # Extract the explanation and answer from the output, the first line is the explanation and the second line is the answer prefixed with "Evaluation:"
     explanation, answer = output.split("\nEvaluation:")
 
-    explanation = explanation.replace("Explanation:", "").strip()
+    explanation = explanation.strip()
+
     answer = answer.strip()
 
     # If the answer is "Yes" return True, else return False
@@ -108,12 +111,13 @@ def pass_test_usefulness(question, notes):
     # Replace {{NOTES}} with the notes
     prompt = re.sub(r"{{NOTES}}", notes, prompt)
 
-    output = get_completion_text(prompt, max_tokens=100, regex=regex, temperature=0.1, min_p=0.1)
+    output = get_completion_text(prompt, max_tokens=100, regex=e_r_regex, temperature=0.1, min_p=0.01)
 
     # Extract the explanation and answer from the output, the first line is the explanation prefixed with "Explanation:" and the second line is the answer prefixed with "Relevance score:"
     explanation, score = output.split("\nRelevance score:")
 
     explanation = explanation.strip()
+
     score = int(score.strip())
 
     return score, explanation

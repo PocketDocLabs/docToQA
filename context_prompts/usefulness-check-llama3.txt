@@ -1,4 +1,4 @@
-<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+<|begin_of_text|><|start_header_id|>user<|end_header_id|>
 
 ### Task instructions:
 - Today we will be helping to sort research notes as a preparation for making flash cards.

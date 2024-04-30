@@ -1,12 +1,12 @@
 import requests
 
 # Generate API URL
-# gen_url = "http://192.168.13.53:8080/v1/completions"
-gen_url = "http://127.0.0.1:8080/v1/completions"
+# gen_url = "http://192.168.13.53:2242/v1/completions"
+gen_url = "http://127.0.0.1:2242/v1/completions"
 
 # Token count API URL
-# token_count_url = "http://192.168.13.53:8080/tokenize"
-token_count_url = "http://127.0.0.1:8080/tokenize"
+# token_count_url = "http://192.168.13.53:2242/tokenize"
+token_count_url = "http://127.0.0.1:2242/tokenize"
 
 def token_count(text, send_ids=False):
     # Set the headers
@@ -34,7 +34,7 @@ def token_count(text, send_ids=False):
         return num_tokens
 
 
-def get_completion(prompt, max_tokens=200, temperature=1.5, min_p=0.1, stop_sequence=[], grammar=""):
+def get_completion(prompt, max_tokens=200, temperature=1.5, min_p=0.1, stop_sequence=[], grammar="", ignore_eos=False):
 
     # Set the headers
     headers = {
@@ -44,8 +44,8 @@ def get_completion(prompt, max_tokens=200, temperature=1.5, min_p=0.1, stop_sequ
     # Set the JSON
     json = {
                 "prompt": prompt,
-                "max_context_length": 16000,
-                "max_length": max_tokens,
+                "max_context_length": 32000,
+                "n_predict": max_tokens,
                 "rep_pen": 1.0,
                 "rep_pen_range": 600,
                 "rep_pen_slope": 0,
@@ -53,7 +53,8 @@ def get_completion(prompt, max_tokens=200, temperature=1.5, min_p=0.1, stop_sequ
                 "min_p": min_p,
                 "sampler_order": [6, 0, 1, 2, 3, 4, 5],
                 "grammar": grammar,
-                "stop_sequence": stop_sequence
+                "stop_sequence": stop_sequence,
+                "ignore_eos": ignore_eos
             }
     
     # Expected response
@@ -67,5 +68,5 @@ def get_completion(prompt, max_tokens=200, temperature=1.5, min_p=0.1, stop_sequ
     # Return the response
     return response.json()
 
-def get_completion_text(prompt, max_tokens=200, temperature=1.0, min_p=0.2, stop_sequence=[], grammar=""):
-    return get_completion(prompt, max_tokens, temperature, min_p, stop_sequence, grammar)["content"]
+def get_completion_text(prompt, max_tokens=200, temperature=1.0, min_p=0.2, stop_sequence=[], grammar="", ignore_eos=False):
+    return get_completion(prompt, max_tokens, temperature, min_p, stop_sequence, grammar, ignore_eos)["content"]
