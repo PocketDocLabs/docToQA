@@ -1,9 +1,9 @@
 import requests
 
 
-# base_url = "http://127.0.0.1:2242"
+base_url = "http://127.0.0.1:2242"
 
-base_url = "http://192.168.13.53:2242"
+# base_url = "http://192.168.13.53:2242"
 
 # Generate API URL
 
@@ -66,7 +66,7 @@ def get_first_model_name():
     return first_model_name
 
 
-def get_completion(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_k=0, repetition_penalty=1.0, stop_sequence=[], regex="", grammar="", beam_search=False, ignore_eos=False, skip_special_tokens=False):
+def get_completion(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_k=-1, repetition_penalty=1.0, stop_sequence=[], regex="", grammar="", beam_search=False, ignore_eos=False, skip_special_tokens=False):
 
     model = get_first_model_name()
 
@@ -104,7 +104,7 @@ def get_completion(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_k=0, 
     # Return the response
     return response.json()
 
-def get_completion_text(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_k=0, repetition_penalty=1.0, stop_sequence=[], regex="", grammar="", beam_search=False, ignore_eos=False, skip_special_tokens=False):
+def get_completion_text(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_k=-1, repetition_penalty=1.0, stop_sequence=[], regex="", grammar="", beam_search=False, ignore_eos=False, skip_special_tokens=False):
     output = ""
 
     while output == "":

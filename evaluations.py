@@ -1,5 +1,5 @@
 import re
-from vllm_gen import get_completion_text
+from backend.vllm import get_completion_text
 
 in_context_prompt_file = "./rubric_prompts/out-of-context-llama3.txt"
 
@@ -7,30 +7,11 @@ situ_aprop_prompt_file = "./rubric_prompts/situationally-appropriate-llama3.txt"
 
 usefulness_prompt_file = "./context_prompts/usefulness-check-llama3.txt"
 
-# Explantion, answer grammar
-e_a_grammar = """<root> ::= " " <line> "\nEvaluation: " <answer>
-
-# Yes or no answer
-<answer> ::= "Yes" | "No"
-
-# String
-<line> ::= [^\r\n\x0b\x0c\x85\u2028\u2029|:]+
-"""
-
+# Explantion, answer regex
 e_a_regex = """ [^\r\n\x0b\x0c\x85\u2028\u2029]+\nEvaluation: (Yes|No)"""
 
-# Explanation, relevance score grammar
-e_r_grammar = """<root> ::= " " <line> "\nRelevance score: " <score>
-
-# String
-<line> ::= [^\r\n\x0b\x0c\x85\u2028\u2029|:]+
-
-# Score
-<score> ::= ("0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10")
-"""
-
+# Explanation, relevance score regex
 e_r_regex = """ [^\r\n\x0b\x0c\x85\u2028\u2029]+\nRelevance score: (10|[0-9])"""
-
 
 
 # Function to check if a question is in context, returns True if the question is in context, False otherwise and the explanation

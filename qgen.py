@@ -11,9 +11,8 @@ from rich.progress import Progress
 import evaluations
 import summary
 
-from vllm_gen import get_completion
-from vllm_gen import get_completion_text
-from vllm_gen import token_count
+from backend.vllm import get_completion_text
+
 
 
 # Prompt file
