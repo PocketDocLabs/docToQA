@@ -1,8 +1,9 @@
 import re
-from vllm_gen import get_completion_text
+from backend.vllm import get_completion_text
+from backend.vllm import token_count
 import anyascii
 from rich.progress import Progress
-import concurrent.futures
+from segmentation import naive_split
 
 summary_prompt_file = "generation_prompts/summary-llama3.txt"
 
@@ -10,30 +11,22 @@ update_summary_prompt_file = "generation_prompts/update-summary-llama3.txt"
 
 combine_summaries_prompt_file = "generation_prompts/combine-summary-llama3.txt"
 
-# Explantion, answer grammar
-summary_grammar = """root ::= answer
-
-answer ::= sentence
-sentence ::= start initial_content end
-
-start ::= [A-Z]
-
-initial_content ::= content {content}
-
-content ::= letter | comma | apostrophe | quotation | space | initial
-
-letter ::= [A-Za-z]
-comma ::= ','
-semicolon ::= ';'
-apostrophe ::= '''
-quotation ::= '"' | '\"'
-space ::= ' '
-initial ::= [A-Z] '.'
-
-end ::= '.' | '?' | '!'
-"""
 
 summary_regex = "[A-Z][a-z]([A-Za-z0-9,'\" ]|([A-Z][.])|([0-9][.]))+[.?!]"
+
+def check_summary(text, max_tokens=512):
+    # Check if there are any tokens repeated more than 3 times
+    num_tokens, ids = token_count(text, send_ids=True)
+
+    # If there are any ids repeated more than 3 times in a row in the token list, return False
+    if any([ids[i] == ids[i + 1] == ids[i + 2] == ids[i + 3] for i in range(len(ids) - 3)]):
+        return False
+    
+    if num_tokens >= max_tokens * 0.95:
+        return False
+    
+    # If there are no tokens repeated more than 3 times, return True
+    return True
 
 # Function to summarize the text
 def single(text, length=2):
@@ -56,7 +49,11 @@ def single(text, length=2):
     max_tokens = length * 125
 
     # Get the completion text
-    completion = get_completion_text(prompt, max_tokens=max_tokens, temperature=2.0, min_p=0.1, repetition_penalty=1.0, regex=regex)
+    completion = get_completion_text(prompt, max_tokens=max_tokens, temperature=2.0, min_p=0.08, repetition_penalty=1.0, regex=regex)
+
+    if not check_summary(completion, max_tokens=max_tokens):
+        while not check_summary(completion, max_tokens=max_tokens):
+            completion = get_completion_text(prompt, max_tokens=max_tokens, temperature=2.0, min_p=0.08, repetition_penalty=1.0, regex=regex)
 
     # Convert the completion to ASCII
     completion = anyascii.anyascii(completion)
@@ -67,6 +64,9 @@ def single(text, length=2):
     # Check for </summary> tag and remove it
     if completion.endswith("</summary>"):
         completion = completion[:-10]
+
+    # Strip the completion
+    completion = completion.strip()
 
     # Return the completion
     return completion
@@ -89,7 +89,11 @@ def combine(summary_list):
     regex = " ".join([summary_regex] * 5)
 
     # Get the completion text
-    completion = get_completion_text(prompt, max_tokens=512, temperature=0.3, min_p=0.1, repetition_penalty=1.0, regex=regex)
+    completion = get_completion_text(prompt, max_tokens=512, temperature=1.5, min_p=0.1, repetition_penalty=1.0, regex=regex)
+
+    if not check_summary(completion, max_tokens=512):
+        while not check_summary(completion, max_tokens=512):
+            completion = get_completion_text(prompt, max_tokens=512, temperature=1.5, min_p=0.1, repetition_penalty=1.0, regex=regex)
 
     # Convert the completion to ASCII
     completion = anyascii.anyascii(completion)
@@ -102,6 +106,9 @@ def combine(summary_list):
     if completion.endswith("</summary>"):
         completion = completion[:-10]
 
+    # Strip the completion
+    completion = completion.strip()
+
     # Return the completion
     return completion
     
@@ -109,21 +116,17 @@ def combine(summary_list):
 # Function to summarize a very long text
 def long(text, verbose=False):
 
-    # create equal segments no longer than 10000 characters
     segments = []
     
-    # Define the maximum segment length
-    max_segment_length = 10000
+    # Split the text into segments using naive_split
+    segments = naive_split(text, max_tokens=3000)
 
-    # Find the length each segment should be by dividing the length of the text by the maximum segment length and rounding up then dividing the length of the text by the number of segments
-    segment_length = -(-len(text) // max_segment_length)
-
-    # Split the text into segments
-    for i in range(segment_length):
-        segments.append(text[i * max_segment_length:(i + 1) * max_segment_length])
+    print(f"Number of segments: {len(segments)}")
 
     # Convert the segments into an array with 2 keys, text and id
     segments = [{"text": segment, "id": i} for i, segment in enumerate(segments)]
+
+    print("Segmentation complete")
 
     # summarize.summary(segment, length=3) will summarize the segment using a length of 3
     # Summarize the first and last 3 segments using a length of 3 and the rest using a length of 1
@@ -143,25 +146,41 @@ def long(text, verbose=False):
     # Use ThreadPoolExecutor to process summaries in parallel and track progress with rich
     summaries = []
 
+    print("Summarizing...")
+
     # If verbose is True, use rich to display a progress bar
+    # if verbose:
+    #     with Progress() as progress:
+    #         # Create a progress bar
+    #         task = progress.add_task("[green]Summarizing...", total=len(segments))
+            
+    #         with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+    #             # Map summarize_segment to each segment
+    #             results = executor.map(summarize_segment, segments)
+    #             for result in results:
+    #                 summaries.append(result)
+    #                 # Update the progress bar each time a segment is processed
+    #                 progress.update(task, advance=1)
+    # else:
+    #     with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+    #         # Map summarize_segment to each segment
+    #         results = executor.map(summarize_segment, segments)
+    #         for result in results:
+    #             summaries.append(result)
+
+    # Without using parallel processing
     if verbose:
         with Progress() as progress:
             # Create a progress bar
             task = progress.add_task("[green]Summarizing...", total=len(segments))
-            
-            with concurrent.futures.ThreadPoolExecutor() as executor:
-                # Map summarize_segment to each segment
-                results = executor.map(summarize_segment, segments)
-                for result in results:
-                    summaries.append(result)
-                    # Update the progress bar each time a segment is processed
-                    progress.update(task, advance=1)
+            for segment in segments:
+                summary = summarize_segment(segment)
+                summaries.append(summary)
+                progress.update(task, advance=1)
     else:
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            # Map summarize_segment to each segment
-            results = executor.map(summarize_segment, segments)
-            for result in results:
-                summaries.append(result)
+        for segment in segments:
+            summary = summarize_segment(segment)
+            summaries.append(summary)
 
     # Sort the summaries by id
     summaries = sorted(summaries, key=lambda x: x['id'])
@@ -171,6 +190,9 @@ def long(text, verbose=False):
         
     # use summarize.combine_summaries to combine the summaries
     combined_summary = combine(summaries)
+
+    # Strip the combined summary
+    combined_summary = combined_summary.strip()
 
     # Return the combined summary
     return combined_summary

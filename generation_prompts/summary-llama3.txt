@@ -17,6 +17,6 @@
 
 {{text}}<|eot_id|><|start_header_id|>assistant<|end_header_id|>
 
-Sure thing, lets get right into that summary:
+Understood. I will summarize the text in {{sentence_count}} sentences or less.
 
 <summary>

@@ -11,6 +11,9 @@ from rich.progress import Progress
 import evaluations
 import summary
 
+from segmentation import naive_split
+
+
 from backend.vllm import get_completion_text
 
 
@@ -94,30 +97,31 @@ def generate_questions_rough(text, summary):
     prompt = re.sub(r"{{DOCUMENT_SUMMARY}}", summary, prompt)
 
     # Use get_completion_text to generate questions
-    output = get_completion_text(prompt, max_tokens=2500, regex=regex, temperature=1.5, min_p=0.1, repetition_penalty=1.05)
-
-    # Split the output into lines
-    lines = output.split("\n")
-
-    # Remove empty lines
-    lines = [line for line in lines if line]
+    outputs = get_completion_text(prompt, max_tokens=2500, regex=regex, temperature=1.5, min_p=0.1, repetition_penalty=1.05, num_results=2)
 
     # List of questions
     questions = []
 
-    # List of prefixes to look for
-    prefixes = ["Open-ended question:", "Closed-ended question:", "Semi-Structured question:", "Leading question:", "Short instruction:", "Scenario-based instruction:", "Problem-based instruction:", "Short prompt:", "Scenario-based prompt:", "Problem-based prompt:", "Formal request:", "Informal request:", "Polite request:", "Direct request:"]
+    for output in outputs:
+        # Split the output into lines
+        lines = output.split("\n")
 
-    for line in lines:
-        # Check if the line starts with a prefix
-        if any([line.startswith(prefix) for prefix in prefixes]):
-            # Strip the prefix
-            line = line.split(":")[1]
+        # Remove empty lines
+        lines = [line for line in lines if line]
 
-            # Strip the line
-            line = line.strip()
+        # List of prefixes to look for
+        prefixes = ["Open-ended question:", "Closed-ended question:", "Semi-Structured question:", "Leading question:", "Short instruction:", "Scenario-based instruction:", "Problem-based instruction:", "Short prompt:", "Scenario-based prompt:", "Problem-based prompt:", "Formal request:", "Informal request:", "Polite request:", "Direct request:"]
 
-            questions.append(line)
+        for line in lines:
+            # Check if the line starts with a prefix
+            if any([line.startswith(prefix) for prefix in prefixes]):
+                # Strip the prefix
+                line = line.split(":")[1]
+
+                # Strip the line
+                line = line.strip()
+
+                questions.append(line)
 
     # Clean the questions
     questions = [clean_text(question) for question in questions]
@@ -139,8 +143,8 @@ def generate_questions(text, summary, verbose=False):
             # Create a task for the progress bar
             task = progress.add_task("[green]Processing questions...", total=len(questions))
             
-            # Use ThreadPoolExecutor to process 16 questions at a time
-            with concurrent.futures.ThreadPoolExecutor() as executor:
+            # Use ThreadPoolExecutor to process 1 question at a time
+            with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
                 # Map and process questions, update the progress bar upon each completion
                 for question_evaluation in executor.map(process_question, questions):
                     question_evaluation_results.append(question_evaluation)
@@ -148,7 +152,7 @@ def generate_questions(text, summary, verbose=False):
 
     else:
         # Process questions without a progress bar using concurrent futures
-        with concurrent.futures.ThreadPoolExecutor() as executor:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
             question_evaluation_results = list(executor.map(process_question, questions))
 
     output_list = []
@@ -161,37 +165,29 @@ def generate_questions(text, summary, verbose=False):
     return output_list
 
 
-# Function to split a string into segments of equal length 
-def split_text(text, max_length):
-    # List of segments
-    segments = []
-
-    # Find the length each segment should be by dividing the length of the text by the maximum segment length and rounding up then dividing the length of the text by the number of segments
-    segment_length = -(-len(text) // max_length)
-
-    # Split the text into segments
-    for i in range(segment_length):
-        segments.append(text[i * max_length:(i + 1) * max_length])
-
-    return segments
-
-
 # Function to generate questions from a long segment of text
-def generate_questions_long(text, verbose=False):
+def generate_questions_long(text, summary, verbose=False):
     # Clean the text
     text = clean_text(text)
 
-    # Get the summary of the text
-    doc_summary = summary.long(text, verbose=verbose)
-
     # Split the text into segments
-    segments = split_text(text, 20000)
+    segments = naive_split(text, max_tokens=4000)
 
     # List of questions
     questions = []
 
     # Generate questions for each segment
-    for segment in segments:
-        questions += generate_questions(segment, doc_summary, verbose=verbose)
+    if verbose:
+        with Progress() as progress:
+            # Create a progress bar
+            task = progress.add_task("[green]Generating questions...", total=len(segments))
+            with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+                # Map and process segments
+                for output in executor.map(generate_questions, segments, [summary] * len(segments)):
+                    questions.extend(output)
+                    progress.update(task, advance=1)
+    else:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+            questions = list(executor.map(generate_questions, segments, [summary] * len(segments)))
 
     return questions

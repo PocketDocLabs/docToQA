@@ -1,9 +1,9 @@
 import requests
 
 
-base_url = "http://127.0.0.1:2242"
+# base_url = "http://127.0.0.1:2242"
 
-# base_url = "http://192.168.13.53:2242"
+base_url = "http://192.168.13.53:2242"
 
 # Generate API URL
 
@@ -66,9 +66,13 @@ def get_first_model_name():
     return first_model_name
 
 
-def get_completion(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_k=-1, repetition_penalty=1.0, stop_sequence=[], regex="", grammar="", beam_search=False, ignore_eos=False, skip_special_tokens=False):
+def get_completion(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_k=-1, repetition_penalty=1.0, stop_sequence=["<|end_of_text|>", "<|eot_id|>"], regex="", grammar="", beam_search=False, ignore_eos=False, skip_special_tokens=False, num_results=1, best_of=1):
 
     model = get_first_model_name()
+
+    # if n is greater than best_of, then set best_of to n
+    if num_results > best_of:
+        best_of = num_results
 
     # Set the headers
     headers = {
@@ -79,6 +83,8 @@ def get_completion(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_k=-1,
     json = {
                 "model": model,
                 "prompt": prompt,
+                "n": num_results,
+                "best_of": best_of,
                 "max_context_length": 16000,
                 "max_tokens": max_tokens,
                 "temperature": temperature,
@@ -104,10 +110,40 @@ def get_completion(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_k=-1,
     # Return the response
     return response.json()
 
-def get_completion_text(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_k=-1, repetition_penalty=1.0, stop_sequence=[], regex="", grammar="", beam_search=False, ignore_eos=False, skip_special_tokens=False):
-    output = ""
+def get_completion_text(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_k=-1, repetition_penalty=1.0, stop_sequence=["<|end_of_text|>", "<|eot_id|>"], regex="", grammar="", beam_search=False, ignore_eos=False, skip_special_tokens=False, num_results=1, best_of=1):
 
-    while output == "":
-        output = get_completion(prompt, max_tokens, temperature, min_p, top_k, repetition_penalty, stop_sequence, regex, grammar, beam_search, ignore_eos, skip_special_tokens)["choices"][0]["text"]
-        output = output.strip()
-    return output
+    if num_results == 1:
+        output = ""
+
+        while output == "":
+            response = get_completion(prompt, max_tokens, temperature, min_p, top_k, repetition_penalty, stop_sequence, regex, grammar, beam_search, ignore_eos, skip_special_tokens, num_results, best_of)
+
+            output = response["choices"][0]["text"]
+
+        return output.strip()
+    
+    else:
+        outputs = []
+
+        response = get_completion(prompt, max_tokens, temperature, min_p, top_k, repetition_penalty, stop_sequence, regex, grammar, beam_search, ignore_eos, skip_special_tokens, num_results, best_of)
+
+        try:
+            for choice in response["choices"]:
+                outputs.append(choice["text"].strip())
+        except KeyError:
+            # Raise an error with the response
+            raise ValueError(response)
+        # Remove empty strings
+        outputs = [x for x in outputs if x]
+
+        # If the number of outputs is less than the number of results, then get more completions
+        while len(outputs) < num_results:
+            response = get_completion(prompt, max_tokens, temperature, min_p, top_k, repetition_penalty, stop_sequence, regex, grammar, beam_search, ignore_eos, skip_special_tokens, num_results - len(outputs), best_of)
+
+            for choice in response["choices"]:
+                outputs.append(choice["text"].strip())
+
+            # Remove empty strings
+            outputs = [x for x in outputs if x]
+
+        return outputs

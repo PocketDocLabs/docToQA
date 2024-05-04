@@ -4,7 +4,7 @@
 - Today we will be helping to sort research notes as a preparation for making flash cards.
 - Evaluate if the presented information is relevant to the request.
 - Provide an explanation for your evaluation then give a 0 to 10 score based on the relevance of the information.
-- The explanation should be 1 to 2
+- The explanation should be 1 to 2 sentences long.
 
 #### Examples:
 

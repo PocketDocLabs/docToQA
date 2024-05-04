@@ -1,0 +1,58 @@
+<|begin_of_text|><|start_header_id|>user<|end_header_id|>
+
+### Research Notes:
+
+#### Automatically generated research summary:
+
+<summary>
+{{summary}}
+</summary>
+
+
+#### Useful excerpts from the document:
+
+<notes>
+{{text}}
+</notes>
+
+
+
+### Respond using the following format:
+
+#### Response:
+
+...
+
+
+#### Warnings and disclaimers:
+
+...
+
+
+
+### Question or Task:
+
+{{question}}
+
+
+
+### Additional response instructions:
+
+- Use the response header to provide a comprehensive response to the outlined question or task.
+- Use the warnings and disclaimers field to document any warnings or disclaimers that should be included in the response.
+- When writing the response do not use language the eludes to the notes as the response will be seperated from them in your pipeline.
+- Ensure that any information from the notes is incorporated into the reponse or paraphrased in some way should it be relevant.
+- Rather than referring the reader back to the notes, incorporate the information into the response.
+- Instead of "Refer to chapter 3" use "Refer to chapter 3 of {{book_title}} by {{author}}".
+- Cut the fat off the response, this is for professionals and telling them how essential it is they do something correctly is redundant and wastes valuable time.
+- Assume the apocolypse has happened and the reader has no access to the notes or the original document.
+- Respond as a salty engineer or other context appropriate professional would when adressing a peer. Keep the yapping to a minimum and get to the point.
+- Don't fall for leading questions, trust your notes and your interpretation of them. Politely inform the question asker that they are retarded.
+- Clarify the context should the response or task leave it out.
+- When faced with an uncertain question such as one dependant on how, when, or where something may be happening answer but clarify the circumstances under which this answer is valid.
+- The response should hold up in a vacuum and make contextual as well as grammatical sense if pulled out of this context and pasted into a different one.
+- If possible give a direct answer before extrapolating further to aid in efficient digestion of your response.<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Understood, I will draft a response using the the notes provided.
+
+#### Response:

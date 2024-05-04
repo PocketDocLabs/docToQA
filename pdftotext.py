@@ -30,14 +30,14 @@ def clean_pages(pages, verbose=False):
     # Remove any pages that contain only empty lines
     pages = [page for page in pages if any([line for line in page["text"] if line])]
 
-    # Compare the first 4 lines from each page against the first 10 lines from every other page, if more than 50% of the characters match, then assume that the line is a header and remove it and all the matching lines from the other pages.
+    # Compare the first 3 lines of each page with the first 8 lines of every other page
     for i in track(range(len(pages))) if verbose else range(len(pages)):
         for j in range(len(pages)):
             if i == j:
                 continue
-            for line in pages[i]["text"][:4]:
+            for line in pages[i]["text"][:3]:
                 matching_characters = 0
-                for other_line in pages[j]["text"][:4]:
+                for other_line in pages[j]["text"][:8]:
                     # Calculate the number of characters that match
                     matching_characters = sum([1 for char1, char2 in zip(line, other_line) if char1 == char2])
                     # If more than 50% of the characters match, then assume that the line is a header and remove it and all the matching lines from the other pages
@@ -57,14 +57,14 @@ def clean_pages(pages, verbose=False):
                 if re.match(r"^\d+-*$", line):
                     pages[i]["text"] = [l for l in pages[i]["text"] if l != line]
 
-    # Do the same as above, but for the last 4 lines of each page
+    # Do the same as above, but for the last 3 lines of each page
     for i in track(range(len(pages))) if verbose else range(len(pages)):
         for j in range(len(pages)):
             if i == j:
                 continue
-            for line in pages[i]["text"][-4:]:
+            for line in pages[i]["text"][-3:]:
                 matching_characters = 0
-                for other_line in pages[j]["text"][-4:]:
+                for other_line in pages[j]["text"][-8:]:
                     matching_characters = sum([1 for char1, char2 in zip(line, other_line) if char1 == char2])
                     try:
                         if matching_characters / len(line) > 0.5:
@@ -86,7 +86,7 @@ def clean_pages(pages, verbose=False):
 def pdf_to_text(pdf_path, clean=True, slow_reformat=False, verbose=False):
     output_text = split_pdf_into_pages(pdf_path, verbose=verbose)
 
-    output_text = clean_pages(output_text, verbose=verbose)
+    output_text = clean_pages(output_text, verbose=False)
 
     output_text = "\n\n\n".join(["\n".join(page["text"]) for page in output_text])
 
