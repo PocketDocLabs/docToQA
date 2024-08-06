@@ -7,24 +7,23 @@ from rich.progress import Progress
 
 
 
-in_context_prompt_file = "./rubric_prompts/out-of-context-llama3.txt"
+in_context_prompt_file = "./rubric_prompts/out-of-context-mistral.txt"
 
-situ_aprop_prompt_file = "./rubric_prompts/situationally-appropriate-llama3.txt"
+situ_aprop_prompt_file = "./rubric_prompts/situationally-appropriate-mistral.txt"
 
-usefulness_prompt_file = "./context_prompts/usefulness-check-llama3.txt"
+usefulness_prompt_file = "./context_prompts/usefulness-check-mistral.txt"
 
-enough_to_answer_prompt_file = "./agen_prompts/enough-to-answer-llama3.txt"
-
+enough_to_answer_prompt_file = "./agen_prompts/enough-to-answer-mistral.txt"
 
 
 # Explantion, answer regex
-e_a_regex = """ [^\r\n\x0b\x0c\x85\u2028\u2029]+\nEvaluation: (Yes|No)"""
+e_a_regex = """ [^\r\n\x0b\x0c\x85\u2028\u2029]*?\nEvaluation: (Yes|No)"""
 
 # Explanation, relevance score regex with the relevance score being an integer between 0 and 10
-e_r_regex = """ [^\r\n\x0b\x0c\x85\u2028\u2029]+\nRelevance score: (10|9|8|7|6|5|4|3|2|1|0)"""
+e_r_regex = """ [^\r\n\x0b\x0c\x85\u2028\u2029]*?\nRelevance score: (10|9|8|7|6|5|4|3|2|1|0)"""
 
 # Explanation, confidence score regex with the confidence score being an integer between 0 and 10
-e_c_regex = """ [^\r\n\x0b\x0c\x85\u2028\u2029]+\nConfidence score: (10|9|8|7|6|5|4|3|2|1|0)"""
+e_c_regex = """ [^\r\n\x0b\x0c\x85\u2028\u2029]*?\nConfidence score: (10|9|8|7|6|5|4|3|2|1|0)"""
 
 
 # Function to check if a question is in context, returns True if the question is in context, False otherwise and the explanation
@@ -38,9 +37,12 @@ def pass_test_in_context(question):
     # Replace {{QUESTION}} with the question
     prompt = re.sub(r"{{QUESTION}}", question, prompt)
 
-    output = get_completion_text(prompt, max_tokens=250, regex=e_a_regex, top_k=1)
+    output = get_completion_text(prompt, max_tokens=250, regex=e_a_regex, temperature=1.0, min_p=0.1)
 
     # Extract the explanation and answer from the output, the first line is the explanation and the second line is the answer prefixed with "Evaluation:"
+    while "\nEvaluation:" not in output:
+        output = get_completion_text(prompt, max_tokens=250, regex=e_a_regex, temperature=1.0, min_p=0.1)
+
     explanation, answer = output.split("\nEvaluation:")
 
     explanation = explanation.strip()
@@ -62,9 +64,12 @@ def pass_test_situ_aprop(question):
     # Replace {{QUESTION}} with the question
     prompt = re.sub(r"{{QUESTION}}", question, prompt)
 
-    output = get_completion_text(prompt, max_tokens=250, regex=e_a_regex, temperature=0.5, min_p=0.01)
+    output = get_completion_text(prompt, max_tokens=250, regex=e_a_regex, temperature=1.0, min_p=0.1)
 
     # Extract the explanation and answer from the output, the first line is the explanation and the second line is the answer prefixed with "Evaluation:"
+    while "\nEvaluation:" not in output:
+        output = get_completion_text(prompt, max_tokens=250, regex=e_a_regex, temperature=1.0, min_p=0.1)
+
     explanation, answer = output.split("\nEvaluation:")
 
     explanation = explanation.strip()
@@ -78,7 +83,11 @@ def pass_test_situ_aprop(question):
 # Function to check the question using all the rubrics and return a bool and an array of explanations and the individual results
 def pass_test_comprehensive(question):
     in_context_result, in_context_explanation = pass_test_in_context(question)
+    # in_context_result = True
+    # in_context_explanation = "In Context is not implemented yet"
     situ_aprop_result, situ_aprop_explanation = pass_test_situ_aprop(question)
+    # situ_aprop_result = True
+    # situ_aprop_explanation = "Situationally Appropriate is not implemented yet"
 
     # Create an array of explanations and results
     output = []
@@ -109,12 +118,12 @@ def pass_test_usefulness(question, text):
     # Extract the explanation and answer from the output, the first line is the explanation prefixed with "Explanation:" and the second line is the answer prefixed with "Relevance score:"
     explanation, score = output.split("\nRelevance score:")
 
-    # attempt = 0
-    # # if the score is not an 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, or 10, keep asking for a score
-    # while score.strip() not in ["10", "9", "8", "7", "6", "5", "4", "3", "2", "1", "0"]:
-    #     output = get_completion_text(prompt, max_tokens=100, regex=e_r_regex, temperature=0.1+(attempt/20), min_p=0.01)
-    #     explanation, score = output.split("\nRelevance score:")
-    #     attempt += 1
+    attempt = 0
+    # if the score is not an 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, or 10, keep asking for a score
+    while score.strip() not in ["10", "9", "8", "7", "6", "5", "4", "3", "2", "1", "0"]:
+        output = get_completion_text(prompt, max_tokens=100, regex=e_r_regex, temperature=0.1+(attempt/20), min_p=0.01)
+        explanation, score = output.split("\nRelevance score:")
+        attempt += 1
 
     explanation = explanation.strip()
 
@@ -179,7 +188,7 @@ def pass_test_usefulness_list(question, text_list, verbose=False):
     return output
         
 # Function to check if a set of notes is enough to answer a question, returns the text and 
-def pass_test_enough_to_answer(question, text):
+def pass_test_enough_to_answer(question, text, debug=False):
     # Read the prompt from the file
     with open(enough_to_answer_prompt_file, "r") as f:
         prompt = f.read()
@@ -206,4 +215,7 @@ def pass_test_enough_to_answer(question, text):
 
     score = int(score.strip())
 
-    return score, text
+    if debug:
+        return score, text, explanation
+    else:
+        return score, text

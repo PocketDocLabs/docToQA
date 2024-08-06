@@ -4,6 +4,7 @@ from backend.vllm import token_count
 import anyascii
 from rich.progress import Progress
 from segmentation import naive_split
+import concurrent.futures
 
 summary_prompt_file = "generation_prompts/summary-llama3.txt"
 
@@ -85,8 +86,8 @@ def combine(summary_list):
     # Replace {{text}} with the joined summaries
     prompt = prompt.replace("{{text}}", summaries)
 
-    # Construct the regex to have 5 sentences
-    regex = " ".join([summary_regex] * 5)
+    # Construct the regex to have 6 sentences
+    regex = " ".join([summary_regex] * 6)
 
     # Get the completion text
     completion = get_completion_text(prompt, max_tokens=512, temperature=1.5, min_p=0.1, repetition_penalty=1.0, regex=regex)
@@ -121,22 +122,20 @@ def long(text, verbose=False):
     # Split the text into segments using naive_split
     segments = naive_split(text, max_tokens=3000)
 
-    print(f"Number of segments: {len(segments)}")
 
     # Convert the segments into an array with 2 keys, text and id
     segments = [{"text": segment, "id": i} for i, segment in enumerate(segments)]
 
-    print("Segmentation complete")
 
     # summarize.summary(segment, length=3) will summarize the segment using a length of 3
-    # Summarize the first and last 3 segments using a length of 3 and the rest using a length of 1
+    # Summarize the first and last segments with a length of 4
 
     # Define the summarization function with the correct length based on the segment's position
     def summarize_segment(segment):
         i = segment['id']
         text = segment['text']
         if i < 2 or i >= len(segments) - 2:
-            # Summarize the first and last 3 segments with a length of 4
+            # Summarize the first and last segments with a length of 4
             summary = single(text, length=4)
         else:
             # Summarize the rest with a length of 1
@@ -146,50 +145,69 @@ def long(text, verbose=False):
     # Use ThreadPoolExecutor to process summaries in parallel and track progress with rich
     summaries = []
 
-    print("Summarizing...")
 
     # If verbose is True, use rich to display a progress bar
-    # if verbose:
-    #     with Progress() as progress:
-    #         # Create a progress bar
-    #         task = progress.add_task("[green]Summarizing...", total=len(segments))
-            
-    #         with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
-    #             # Map summarize_segment to each segment
-    #             results = executor.map(summarize_segment, segments)
-    #             for result in results:
-    #                 summaries.append(result)
-    #                 # Update the progress bar each time a segment is processed
-    #                 progress.update(task, advance=1)
-    # else:
-    #     with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
-    #         # Map summarize_segment to each segment
-    #         results = executor.map(summarize_segment, segments)
-    #         for result in results:
-    #             summaries.append(result)
-
-    # Without using parallel processing
     if verbose:
         with Progress() as progress:
             # Create a progress bar
             task = progress.add_task("[green]Summarizing...", total=len(segments))
-            for segment in segments:
-                summary = summarize_segment(segment)
-                summaries.append(summary)
-                progress.update(task, advance=1)
+            
+            with concurrent.futures.ThreadPoolExecutor(max_workers=6) as executor:
+                # Map summarize_segment to each segment
+                results = executor.map(summarize_segment, segments)
+                for result in results:
+                    summaries.append(result)
+                    # Update the progress bar each time a segment is processed
+                    progress.update(task, advance=1)
     else:
-        for segment in segments:
-            summary = summarize_segment(segment)
-            summaries.append(summary)
+        with concurrent.futures.ThreadPoolExecutor(max_workers=6) as executor:
+            # Map summarize_segment to each segment
+            results = executor.map(summarize_segment, segments)
+            for result in results:
+                summaries.append(result)
+
+    # Without using parallel processing
+    # if verbose:
+    #     with Progress() as progress:
+    #         # Create a progress bar
+    #         task = progress.add_task("[green]Summarizing...", total=len(segments))
+    #         for segment in segments:
+    #             summary = summarize_segment(segment)
+    #             summaries.append(summary)
+    #             progress.update(task, advance=1)
+    # else:
+    #     for segment in segments:
+    #         summary = summarize_segment(segment)
+    #         summaries.append(summary)
 
     # Sort the summaries by id
     summaries = sorted(summaries, key=lambda x: x['id'])
 
     # Extract the summaries from the results
     summaries = [result['summary'] for result in summaries]
+
+    # Split the first long summaries into their own list
+    first_summaries = summaries[:2]
+    summaries = summaries[2:]
+
+    # Split the last long summaries into their own list
+    last_summaries = summaries[-2:]
+    summaries = summaries[:-2]
+
+    # Split the remaining summaries into two lists
+    summaries1 = summaries[:len(summaries) // 2]
+
+    summaries2 = summaries[len(summaries) // 2:]
+
+
+    # Combine the summaries
+    combined_summary1 = combine(summaries1)
+
+    combined_summary2 = combine(summaries2)
         
-    # use summarize.combine_summaries to combine the summaries
-    combined_summary = combine(summaries)
+    final_list = first_summaries + [combined_summary1, combined_summary2] + last_summaries
+
+    combined_summary = combine(final_list)
 
     # Strip the combined summary
     combined_summary = combined_summary.strip()

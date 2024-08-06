@@ -1,5 +1,4 @@
 import requests
-import time
 
 
 # base_url = "http://127.0.0.1:2242"
@@ -8,8 +7,8 @@ import time
 
 # Url list
 url_list = [
-    # "http://0.0.0.0:7860",
-    "https://t8pkz0qc0d9y9w-8000.proxy.runpod.net"
+    # "http://0.0.0.0:7860"
+    "https://jsm67wjxxu0o1k-8000.proxy.runpod.net/"
 ]
 
 
@@ -17,7 +16,7 @@ url_list = [
 gen_url = "/v1/completions"
 
 # Token count API URL
-token_count_url = "/tokenize"
+token_count_url = "/v1/token/encode"
 
 # Model list API URL
 model_list_url = "/v1/models"
@@ -87,12 +86,9 @@ def get_best_url(url_list):
 
 
 # Function to get token count
-def token_count(text, model=None, send_ids=False, url=None):
+def token_count(text, send_ids=False, url=None):
     if url is None:
         url = get_best_url(url_list)
-        
-    if model is None:
-        model = get_first_model_name(url)
 
     # Set the URL
     req_url = url + token_count_url
@@ -104,22 +100,20 @@ def token_count(text, model=None, send_ids=False, url=None):
 
     # Set the JSON
     json = {
-                "model": model,
-                "prompt": text,
-                "add_special_tokens": True
+                "prompt": text
             }
 
     # Send the request
     response = requests.post(req_url, headers=headers, json=json)
 
     # Expected response
-    # {'count': 5, 'max_model_len': 16384, 'tokens': [1, 4380, 1395, 1261, 2688]}
+    # {'value': 28, 'ids': [3957, 13465, 3958, 369, 499, 5380, 70869, 25, 8489, 433, 14117, 627, 697, 33194, 18607, 25, 220, 17, 271, 3923, 374, 279, 6864, 315, 9822, 5380, 70869, 25]}
 
     # Count the number of tokens
-    num_tokens = response.json()["count"]
+    num_tokens = response.json()["value"]
 
     if send_ids:
-        return num_tokens, response.json()["tokens"]
+        return num_tokens, response.json()["ids"]
     else:
         return num_tokens
 
@@ -127,16 +121,9 @@ def token_count(text, model=None, send_ids=False, url=None):
 def get_model_list(url=None):
     # Set the URL
     req_url = url + model_list_url
-    # print(req_url)
 
-    # Try to get the list of models every 5 seconds, we will know the list is valid if it has at least one model
-    while True:
-        # Send the request
-        response = requests.get(req_url)
-
-        # If the response is valid, then break
-        if response.status_code == 200 and len(response.json()["data"]) > 0:
-            break
+    # Send the request
+    response = requests.get(req_url)
 
     # Return the response
     return response.json()
@@ -170,7 +157,7 @@ def get_completion(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_k=-1,
 
     # Set the headers
     headers = {
-        "Content-Type": "application/json"
+        "X-API-KEY": "EMPTY",
     }
 
     # Set the JSON
@@ -179,6 +166,7 @@ def get_completion(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_k=-1,
                 "prompt": prompt,
                 "n": num_results,
                 "best_of": best_of,
+                "max_context_length": 11000,
                 "max_tokens": max_tokens,
                 "temperature": temperature,
                 "repetition_penalty": repetition_penalty,
@@ -195,12 +183,10 @@ def get_completion(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_k=-1,
     
     # Expected response
     """
-    {'id': 'cmpl-570d78f136d74a40a9fcbd40c128c3c3', 'object': 'text_completion', 'created': 1722685635, 'model': 'casperhansen/mistral-nemo-instruct-2407-awq', 'choices': [{'index': 0, 'text': ' Paris\n (3 points)\nWhat is the population of France? 67 million\n (2 points)\nWhat is the currency of France? Euro\n (2 points)\nWhat is the language of France? French\n (2 points)\nWhat is the largest city in France? Paris\n (3 points)\nWhat is the highest mountain in France? Mont Blanc\n (2 points)\nWhat is the longest river in France? The Seine\n (2 points)\nWhat is the official name of France? French Republic\n (2 points)\nWhat is the flag of France? The Tricolour\n (2 points)\nWhat is the national bird of France? The Gallic Rooster\n (2 points)\nWhat is the national flower of France? Lily\n (2 points)\nWhat is the national dish of France? Ratatouille\n (2 points)', 'logprobs': None, 'finish_reason': 'stop', 'stop_reason': None}], 'usage': {'prompt_tokens': 8, 'total_tokens': 181, 'completion_tokens': 173}}
+    {'id': 'cmpl-3263575ebf6a4efb82d7bb8cba177a7b', 'object': 'text_completion', 'created': 844573, 'model': 'llama-3-70b-instruct', 'choices': [{'index': 0, 'text': " What is the general overview of the ignition system in a vehicle?\nClosed-ended question: Is the ignition system responsible for generating high voltage?\nSemi-Structured question: Can you explain the difference between the Transistorised Coil Ignition (TCI) system and the Motronic ignition system?\nLeading question: Don't you think that the ignition system is a critical component of a vehicle's engine?\n\nInstructions (Imperatives)\n\nShort instruction: Check the ignition system regularly to ensure proper engine performance.\nScenario", 'logprobs': None, 'finish_reason': 'length'}], 'usage': {'prompt_tokens': 9396, 'total_tokens': 9496, 'completion_tokens': 100}}
     """
     # Send the request
     response = requests.post(req_url, headers=headers, json=json, timeout=1800)
-    
-    print(response.json())
 
     # Return the response
     return response.json()
@@ -208,8 +194,7 @@ def get_completion(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_k=-1,
 def get_completion_text(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_k=-1, repetition_penalty=1.0, stop_sequence=["<|end_of_text|>", "<|eot_id|>"], regex="", grammar="", beam_search=False, ignore_eos=False, skip_special_tokens=False, num_results=1, best_of=1):
 
     # Get the best URL
-    # url = get_best_url(url_list)
-    url = url_list[0]
+    url = get_best_url(url_list)
 
     if num_results == 1:
         output = ""
@@ -222,8 +207,6 @@ def get_completion_text(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_
             except KeyError:
                 # Raise an error with the response
                 raise ValueError(response)
-
-        # print(output.strip())
 
         return output.strip()
     
@@ -250,8 +233,6 @@ def get_completion_text(prompt, max_tokens=200, temperature=1.0, min_p=0.0, top_
 
             # Remove empty strings
             outputs = [x for x in outputs if x]
-            
-        # print(outputs)
 
         return outputs
     

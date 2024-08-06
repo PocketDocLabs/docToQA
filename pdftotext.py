@@ -1,6 +1,9 @@
 from structml import line_heal
 import re
 from rich.progress import track
+from rich.progress import Progress
+
+from concurrent.futures import ThreadPoolExecutor
 
 import pypdfium2 as pdfium
 from pdftext.extraction import plain_text_output
@@ -12,11 +15,25 @@ def split_pdf_into_pages(pdf_path, verbose=False):
 
     parsed_pdf = pdfium.PdfDocument(pdf_path)
 
-    for page_number in track(range(len(parsed_pdf)), description="Extracting text from PDF pages") if verbose else range(len(parsed_pdf)):
+    # for page_number in track(range(len(parsed_pdf)), description="Extracting text from PDF pages") if verbose else range(len(parsed_pdf)):
 
-        page_text = plain_text_output(parsed_pdf, sort=False, hyphens=True, page_range=[page_number])
+    #     page_text = plain_text_output(parsed_pdf, sort=False, hyphens=True, page_range=[page_number])
 
-        output_text.append({"page_number": page_number, "text": page_text.split("\n")})
+    #     output_text.append({"page_number": page_number, "text": page_text.split("\n")})
+
+    if verbose:
+        with Progress() as progress:
+            task = progress.add_task("[green]Extracting text from PDF pages...", total=len(parsed_pdf))
+            with ThreadPoolExecutor() as executor:
+                for page_number in range(len(parsed_pdf)):
+                    page_text = plain_text_output(parsed_pdf, sort=False, hyphens=True, page_range=[page_number])
+                    output_text.append({"page_number": page_number, "text": page_text.split("\n")})
+                    progress.update(task, advance=1)
+    else:
+        with ThreadPoolExecutor() as executor:
+            for page_number in range(len(parsed_pdf)):
+                page_text = plain_text_output(parsed_pdf, sort=False, hyphens=True, page_range=[page_number])
+                output_text.append({"page_number": page_number, "text": page_text.split("\n")})
 
     return output_text
 

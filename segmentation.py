@@ -4,6 +4,9 @@ import concurrent.futures
 
 from rich.progress import Progress
 
+import tiktoken
+import semchunk
+
 
 context_split_prompt_file = "./prep_prompts/context-split-llama3.md"
 
@@ -84,60 +87,24 @@ def smart_split(text):
     return output_list
 
 def naive_split(text, max_tokens=4000, overlap=0.2):
-    # Split the text into multiple segments based on the max tokens limit and overlap. For performance reasons we will assume 1 token is 4 characters
-    # Calculate the number of tokens to overlap
-    overlap_tokens = int(max_tokens * overlap)
+    encoder = tiktoken.encoding_for_model('gpt-4')
+    token_counter = lambda text: len(encoder.encode(text))
 
-    overlap_tokens = overlap_tokens * 4
+    # Split the text
+    output_list = semchunk.chunk(text, chunk_size=max_tokens, token_counter=token_counter)
 
-    max_tokens = max_tokens * 4
+    # If the last line of a string in output_list starts with a # and its not the last chunk, remove it and prepend it to the next chunk
+    for i in range(len(output_list) - 1):
+        # Split the last line of the string
+        last_line = output_list[i].split("\n")[-1]
 
-    # Every max_tokens - overlap_tokens characters, we will take the next max_tokens characters rounded to the previous punctuation mark
-    # Initialize the start and end indices
-    start_index = 0
-    end_index = 0
+        # If the last line starts with a # remove it and prepend it to the next chunk
+        if last_line.startswith("#"):
+            # Remove the last line from the string
+            output_list[i] = "\n".join(output_list[i].split("\n")[:-1])
 
-    # Initialize the output list
-    output_list = []
-
-    # Loop until the end index is equal to the length of the text
-    while end_index < len(text):
-        # Calculate the end index
-        end_index = start_index + max_tokens
-
-        # If the end index is greater than the length of the text, then set it to the length of the text
-        if end_index > len(text):
-            end_index = len(text)
-
-        # If the end index is equal to the length of the text, then break
-        if end_index == len(text):
-            break
-
-        # If the end index is less than the length of the text, then find the last ". ", "? ", or "! " before the end index and set the end index to that index
-        end_index = text.rfind(" ", start_index, end_index)
-
-        # If the end index is still -1, then set it to the start index + max tokens
-        if end_index == -1:
-            end_index = start_index + max_tokens
-
-        # Append the text from start index to end index to the output list
-        output_list.append(text[start_index:end_index])
-
-        # Update the start index to the end index - overlap tokens
-        start_index = end_index - overlap_tokens
-
-        # Find the last newline or whitespace character before the start index
-        start_index = text.rfind(" ", 0, start_index)
-
-        if start_index == -1:
-            start_index = text.rfind("\n", 0, start_index)
-
-        # If the start index is still -1, then set it to end index - overlap tokens
-        if start_index == -1:
-            start_index = end_index - overlap_tokens
-
-    # Append the remaining text to the output list
-    output_list.append(text[start_index:])
+            # Prepend the last line to the next string
+            output_list[i + 1] = last_line + "\n" + output_list[i + 1]
 
     # Strip leading/trailing whitespace from each element in the list
     output_list = [x.strip() for x in output_list]
